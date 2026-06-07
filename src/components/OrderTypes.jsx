@@ -1,6 +1,6 @@
 import React from "react";
-import Dinein from "../assets/dinein.png";
-import Takeout from "../assets/takeout.png";
+import Dinein from "../assets/Dinein.png";
+import Takeout from "../assets/Takeout.png";
 
 export default function OrderTypes({ onSelect, onBack }) {
     return (
