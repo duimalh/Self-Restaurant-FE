@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import OrderIcon from "../assets/OrderIcon.png";
-
+import CustomizerPopup from "./CustomizerPopup";
 
 export default function Menu({ categories, items, cart, onAddToCart, onViewOrder, cartTotal }) {
     const [selectedCategory, setSelectedCategory] = useState(categories[0]);
@@ -44,7 +44,7 @@ export default function Menu({ categories, items, cart, onAddToCart, onViewOrder
                                     <div key={item.id} className="menu-item" onClick={() => setSelectedItem(item)}>
                                         <img src={item.image} alt={item.name} className="item-image" />
                                         <span className="menu-item-name">{item.name}</span>
-                                        <span className="menu-item-price">{item.price.toLocaleString()} đ</span>
+                                        <span className="menu-item-price">{item.price.toLocaleString()}VND</span>
                                     </div>
                                 ))}
                             </div>
@@ -55,7 +55,7 @@ export default function Menu({ categories, items, cart, onAddToCart, onViewOrder
                             <img src={OrderIcon} alt="Xem đơn hàng" className="view-order-icon" />
                             <span className="view-order-text">Xem đơn hàng</span>
                             <span className="view-order-count">{orderItems}</span>
-                            <span className="view-order-total">{cartTotal.toLocaleString()} đ</span>
+                            <span className="view-order-total">{cartTotal.toLocaleString()}VND</span>
                         </button>
                     </div>
                 </main>

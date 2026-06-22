@@ -11,7 +11,7 @@ const CATEGORIES = [
   { id: "matcha & houjicha", name: "Matcha & Houjicha" },
 ];
 const MENU_ITEMS = [
-  { id: 1, category: "vietnamese coffe", name: "Cà Phê Đen", price: 33000 },
+  { id: 1, category: "vietnamese coffe", name: "Cà Phê Đen", price: 33000, image: 'https://i.pinimg.com/736x/fa/21/eb/fa21eb28c29f08f40bd7f44e9d21f27d.jpg' },
   { id: 2, category: "vietnamese coffe", name: "Cà Phê Sữa", price: 36000 },
   { id: 3, category: "vietnamese coffe", name: "Bạc Xỉu", price: 40000 },
   { id: 4, category: "vietnamese coffe", name: "Bạc Xỉu Sữa Dừa", price: 46000 },
@@ -43,10 +43,15 @@ function App() {
   const addToCart = (item) => {
     setCart(prev => {
       const existing = prev.find(i => i.id === item.id);
+
       if (existing) {
-        return prev.map(i => i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i);
+        return prev.map(i =>
+          i.id === item.id
+            ? { ...i, quantity: i.quantity + item.quantity }
+            : i
+        );
       }
-      return [...prev, { ...item, quantity: 1 }];
+      return [...prev, item];
     });
   };
 
