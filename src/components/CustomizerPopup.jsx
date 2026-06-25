@@ -44,7 +44,7 @@ export default function CustomizerPopup({ item, onClose, onAdd }) {
                                 onClick={() => setSize(s)}
                                 className={`choice-pill-btn ${size === s ? 'active' : ''}`}
                             >
-                                {s} {s === 'L' && '+10.000VND'}
+                                {s} {s === 'L' && <span className="choice-btn-fee">+10.000VND</span>}
                             </button>
                         ))}
                     </div>
@@ -52,7 +52,7 @@ export default function CustomizerPopup({ item, onClose, onAdd }) {
 
                 {isCoffee && (
                     <div className="option-cluster">
-                        <label className="option-label">DRINK TEMP </label>
+                        <label className="option-label">NHIỆT ĐỘ NƯỚC</label>
                         <div className="option-buttons two-cols">
                             {['LẠNH', 'NÓNG'].map((t) => (
                                 <button
@@ -67,7 +67,7 @@ export default function CustomizerPopup({ item, onClose, onAdd }) {
                     </div>
                 )}
                 <div className="option-cluster">
-                    <label className="option-label">SWEETNESS LEVEL </label>
+                    <label className="option-label">ĐỘ NGỌT</label>
                     <div className="option-buttons">
                         {['BÌNH THƯỜNG', 'NHIỀU ĐƯỜNG', 'ÍT ĐƯỜNG', 'KHÔNG ĐƯỜNG'].map((sw) => (
                             <button
@@ -90,8 +90,8 @@ export default function CustomizerPopup({ item, onClose, onAdd }) {
                 })}
                 className="btn-submit-custom-item"
             >
-                <img src={OrderIcon} alt="Thêm vào đơn" className="btn-submit-icon" />
-                <span> Thêm vào đơn</span>
+                <img src={OrderIcon} alt="Thêm vào giỏ" className="btn-submit-icon" />
+                <span> Thêm vào giỏ</span>
                 <span>{(totalPrice * quantity).toLocaleString()}VND</span>
             </button>
         </div>
