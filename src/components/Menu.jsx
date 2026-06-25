@@ -42,7 +42,9 @@ export default function Menu({ categories, items, cart, onAddToCart, onViewOrder
                                 <h3 className="menu-category-title">{cat.name}</h3>
                                 {catItems.map((item) => (
                                     <div key={item.id} className="menu-item" onClick={() => setSelectedItem(item)}>
-                                        <img src={item.image} alt={item.name} className="item-image" />
+                                        <div className="image-wrapper">
+                                            <img src={item.image} alt={item.name} className="item-image" />
+                                        </div>
                                         <span className="menu-item-name">{item.name}</span>
                                         <span className="menu-item-price">{item.price.toLocaleString()}VND</span>
                                     </div>
@@ -53,7 +55,7 @@ export default function Menu({ categories, items, cart, onAddToCart, onViewOrder
                     <div className="menu-button-bar">
                         <button className="view-order-button" onClick={onViewOrder}>
                             <img src={OrderIcon} alt="Xem đơn hàng" className="view-order-icon" />
-                            <span className="view-order-text">Xem đơn hàng</span>
+                            <span className="view-order-text">Xem giỏ hàng</span>
                             <span className="view-order-count">{orderItems}</span>
                             <span className="view-order-total">{cartTotal.toLocaleString()}VND</span>
                         </button>
