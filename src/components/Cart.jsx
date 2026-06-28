@@ -1,5 +1,6 @@
 import React from 'react';
 import Trash from "../assets/Trash.png"
+import OrderIcon from "../assets/OrderIcon.png"
 
 export default function Cart({ cart, cartTotal, onBack, onCheckout, onUpdateQty, onRemove }) {
   return (
@@ -17,7 +18,7 @@ export default function Cart({ cart, cartTotal, onBack, onCheckout, onUpdateQty,
           cart.map((item) => (
             <div key={item.cartId} className="cart-item-row">
               <div className="cart-item-left">
-                <img className="cart-item-image" src={item.image} alt={item.image} />
+                <img className="cart-item-image" src={item.image} alt={item.name} />
                 <div className="cart-item-title">
                   <h2 className="cart-item-name">{item.name}</h2>
                   <ul className="cart-item-options">
@@ -35,7 +36,7 @@ export default function Cart({ cart, cartTotal, onBack, onCheckout, onUpdateQty,
                   <button onClick={() => onUpdateQty(item.cartId, item.quantity + 1)} className="cart-qty-btn1"> v </button>
                 </div>
                 <div className="cart-item-price">
-                  {(item.price * item.quantity).toLocaleString()}VND
+                  {(item.price * item.quantity).toLocaleString()} VND
                 </div>
                 <button onClick={() => onRemove(item.cartId)} className="btn-item-remove">
                   <img className="btn-item-icon" src={Trash} alt="Thùng rác" />
@@ -50,12 +51,8 @@ export default function Cart({ cart, cartTotal, onBack, onCheckout, onUpdateQty,
         <button onClick={onBack} className="btn-back-menu">
           ← Trở lại Menu
         </button>
-        <button
-          onClick={onCheckout}
-          disabled={cart.length === 0}
-          className="btn-checkout active-state"
-        >
-          <span>Check out now</span>
+        <button onClick={onCheckout} disabled={cart.length === 0} className="btn-checkout ">
+          <span className="cart-checkout-text"> <img className="cart-checkout-icon" src={OrderIcon} alt="Checkout img" /> Check out now</span>
           <span>{cartTotal.toLocaleString()}VND</span>
         </button>
       </div>

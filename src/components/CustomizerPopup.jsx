@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import OrderIcon from "../assets/OrderIcon.png"
 
 export default function CustomizerPopup({ item, onClose, onAdd }) {
@@ -6,14 +6,10 @@ export default function CustomizerPopup({ item, onClose, onAdd }) {
     const [temp, setTemp] = useState('LẠNH');
     const [sweetness, setSweetness] = useState('BÌNH THƯỜNG');
     const [quantity, setQuantity] = useState(1);
-    const [totalPrice, setTotalPrice] = useState(item.price);
-    const isCoffee = item.category?.toLowerCase().includes('vietnamese coffe');
+    const isCoffee =
+        item.category?.toLowerCase().includes("vietnamese coffe");
 
-    useEffect(() => {
-        let base = item.price;
-        if (size === 'L') base += 10000;
-        setTotalPrice(base);
-    }, [size, item.price]);
+    const totalPrice = item.price + (size === "L" ? 10000 : 0);
 
     return (
         <div className="modal-overlay">
@@ -52,7 +48,7 @@ export default function CustomizerPopup({ item, onClose, onAdd }) {
 
                 {isCoffee && (
                     <div className="option-cluster">
-                        <label className="option-label">NHIỆT ĐỘ NƯỚC</label>
+                        <label className="option-label">NHIỆT ĐỘ </label>
                         <div className="option-buttons two-cols">
                             {['LẠNH', 'NÓNG'].map((t) => (
                                 <button
@@ -86,7 +82,7 @@ export default function CustomizerPopup({ item, onClose, onAdd }) {
                     id: item.id, name: item.name, image: item.image,
                     size, temp: isCoffee ? temp : 'LẠNH',
                     sweetness, quantity,
-                    price: totalPrice, totalPrice: totalPrice
+                    price: totalPrice
                 })}
                 className="btn-submit-custom-item"
             >
