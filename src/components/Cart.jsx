@@ -1,7 +1,8 @@
 import React from 'react';
-import Trash from "../assets/Trash.png"
-import OrderIcon from "../assets/OrderIcon.png"
+import Trash from "../assets/Trash.png";
+import OrderIcon from "../assets/OrderIcon.png";
 
+// Thay item.size/temp/sweetness bằng item.optionLabels (từ CustomizerPopup mới)
 export default function Cart({ cart, cartTotal, onBack, onCheckout, onUpdateQty, onRemove }) {
   return (
     <div className="cart-screen">
@@ -22,9 +23,10 @@ export default function Cart({ cart, cartTotal, onBack, onCheckout, onUpdateQty,
                 <div className="cart-item-title">
                   <h2 className="cart-item-name">{item.name}</h2>
                   <ul className="cart-item-options">
-                    <li>{item.size}</li>
-                    <li>{item.temp}</li>
-                    <li>{item.sweetness}</li>
+                    {/* Bug FE-5 fix: dùng optionLabels thay vì size/temp/sweetness */}
+                    {(item.optionLabels ?? []).map((label, i) => (
+                      <li key={i}>{label}</li>
+                    ))}
                   </ul>
                 </div>
               </div>
@@ -52,7 +54,9 @@ export default function Cart({ cart, cartTotal, onBack, onCheckout, onUpdateQty,
           ← Trở lại Menu
         </button>
         <button onClick={onCheckout} disabled={cart.length === 0} className="btn-checkout ">
-          <span className="cart-checkout-text"> <img className="cart-checkout-icon" src={OrderIcon} alt="Checkout img" /> Check out now</span>
+          <span className="cart-checkout-text">
+            <img className="cart-checkout-icon" src={OrderIcon} alt="Checkout img" /> Check out now
+          </span>
           <span>{cartTotal.toLocaleString()}VND</span>
         </button>
       </div>

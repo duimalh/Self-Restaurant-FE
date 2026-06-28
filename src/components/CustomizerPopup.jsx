@@ -1,19 +1,75 @@
-import React, { useState } from 'react';
-import OrderIcon from "../assets/OrderIcon.png"
+import React, { useState, useMemo } from 'react';
+import OrderIcon from "../assets/OrderIcon.png";
 
+/**
+ * Bug FE-5 fix:
+ * - Trước: hardcode Size/Nhiệt độ/Độ ngọt dạng strings, không track optionIds
+ * - Sau: render động từ item.optionGroups (data BE), track selectedOptionIds (List<Integer>)
+ *   để gửi đúng format vào createOrder API
+ */
 export default function CustomizerPopup({ item, onClose, onAdd }) {
-    const [size, setSize] = useState('M');
-    const [temp, setTemp] = useState('LẠNH');
-    const [sweetness, setSweetness] = useState('BÌNH THƯỜNG');
     const [quantity, setQuantity] = useState(1);
-    const isCoffee =
-        item.category?.toLowerCase().includes("vietnamese coffe");
 
-    const totalPrice = item.price + (size === "L" ? 10000 : 0);
+    // selectedOptions: { [groupId]: { optionId, optionName, optionPrice } }
+    const initialSelections = useMemo(() => {
+        const init = {};
+        (item.optionGroups ?? []).forEach(group => {
+            if (group.required && group.options?.length > 0) {
+                const first = group.options[0];
+                init[group.groupId] = {
+                    optionId: first.optionId,
+                    optionName: first.optionName,
+                    optionPrice: Number(first.optionPrice ?? 0),
+                };
+            }
+        });
+        return init;
+    }, [item]);
+
+    const [selectedOptions, setSelectedOptions] = useState(initialSelections);
+
+    const optionExtraTotal = Object.values(selectedOptions)
+        .reduce((sum, o) => sum + (o.optionPrice ?? 0), 0);
+
+    const unitPrice = item.price + optionExtraTotal;
+
+    const handleSelectOption = (groupId, option) => {
+        setSelectedOptions(prev => ({
+            ...prev,
+            [groupId]: {
+                optionId: option.optionId,
+                optionName: option.optionName,
+                optionPrice: Number(option.optionPrice ?? 0),
+            },
+        }));
+    };
+
+    const handleAdd = () => {
+        // Tạo selectedOptionIds để gửi lên BE
+        const selectedOptionIds = Object.values(selectedOptions).map(o => o.optionId);
+
+        // Label hiển thị trong Cart (giữ UX cũ)
+        const optionLabels = Object.entries(selectedOptions).map(([groupId, opt]) => {
+            const group = (item.optionGroups ?? []).find(g => g.groupId === Number(groupId));
+            return `${group?.groupName ?? ''}: ${opt.optionName}`;
+        });
+
+        onAdd({
+            id: item.id,
+            name: item.name,
+            image: item.image,
+            quantity,
+            price: unitPrice,
+            selectedOptionIds,  // gửi BE
+            optionLabels,       // hiển thị trong Cart
+        });
+    };
+
+    // Fallback: nếu sản phẩm không có optionGroups (BE chưa trả về)
+    const hasOptions = (item.optionGroups ?? []).length > 0;
 
     return (
         <div className="modal-overlay">
-
             <div className="modal-header-section">
                 <div className="modal-infor">
                     <img src={item.image} alt={item.name} className="modal-item-image" />
@@ -31,64 +87,48 @@ export default function CustomizerPopup({ item, onClose, onAdd }) {
             </div>
 
             <div className="modal-options-body">
-                <div className="option-cluster">
-                    <label className="option-label">SIZE </label>
-                    <div className="option-buttons two-cols">
-                        {['M', 'L'].map((s) => (
-                            <button
-                                key={s}
-                                onClick={() => setSize(s)}
-                                className={`choice-pill-btn ${size === s ? 'active' : ''}`}
-                            >
-                                {s} {s === 'L' && <span className="choice-btn-fee">+10.000VND</span>}
-                            </button>
-                        ))}
-                    </div>
-                </div>
+                {!hasOptions && (
+                    <p style={{ textAlign: 'center', color: '#888' }}>Sản phẩm không có tùy chọn thêm</p>
+                )}
 
-                {isCoffee && (
-                    <div className="option-cluster">
-                        <label className="option-label">NHIỆT ĐỘ </label>
-                        <div className="option-buttons two-cols">
-                            {['LẠNH', 'NÓNG'].map((t) => (
-                                <button
-                                    key={t}
-                                    onClick={() => setTemp(t)}
-                                    className={`choice-pill-btn ${temp === t ? 'active' : ''}`}
-                                >
-                                    {t === 'LẠNH' ? 'LẠNH' : 'NÓNG'}
-                                </button>
-                            ))}
+                {/* Render động từ BE optionGroups */}
+                {(item.optionGroups ?? []).map(group => (
+                    <div key={group.groupId} className="option-cluster">
+                        <label className="option-label">
+                            {group.groupName.toUpperCase()}
+                            {group.required && <span style={{ color: 'red' }}> *</span>}
+                        </label>
+                        <div className="option-buttons">
+                            {(group.options ?? []).map(option => {
+                                const isSelected = selectedOptions[group.groupId]?.optionId === option.optionId;
+                                const price = Number(option.optionPrice ?? 0);
+                                return (
+                                    <button
+                                        key={option.optionId}
+                                        onClick={() => handleSelectOption(group.groupId, option)}
+                                        className={`choice-pill-btn ${isSelected ? 'active' : ''}`}
+                                    >
+                                        {option.optionName}
+                                        {price > 0 && (
+                                            <span className="choice-btn-fee">
+                                                +{price.toLocaleString()}VND
+                                            </span>
+                                        )}
+                                    </button>
+                                );
+                            })}
                         </div>
                     </div>
-                )}
-                <div className="option-cluster">
-                    <label className="option-label">ĐỘ NGỌT</label>
-                    <div className="option-buttons">
-                        {['BÌNH THƯỜNG', 'NHIỀU ĐƯỜNG', 'ÍT ĐƯỜNG', 'KHÔNG ĐƯỜNG'].map((sw) => (
-                            <button
-                                key={sw}
-                                onClick={() => setSweetness(sw)}
-                                className={`choice-pill-btn ${sweetness === sw ? 'active' : ''}`}>
-                                {sw}
-                            </button>
-                        ))}
-                    </div>
-                </div>
+                ))}
             </div>
 
             <button
-                onClick={() => onAdd({
-                    id: item.id, name: item.name, image: item.image,
-                    size, temp: isCoffee ? temp : 'LẠNH',
-                    sweetness, quantity,
-                    price: totalPrice
-                })}
+                onClick={handleAdd}
                 className="btn-submit-custom-item"
             >
                 <img src={OrderIcon} alt="Thêm vào giỏ" className="btn-submit-icon" />
                 <span> Thêm vào giỏ</span>
-                <span>{(totalPrice * quantity).toLocaleString()}VND</span>
+                <span>{(unitPrice * quantity).toLocaleString()}VND</span>
             </button>
         </div>
     );
