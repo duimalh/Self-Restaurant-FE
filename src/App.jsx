@@ -16,9 +16,8 @@ function App() {
   const [screen, setScreen] = useState('WELCOME');
   const [orderType, setOrderType] = useState('');
   const [cart, setCart] = useState([]);
-  const [orderNumber, setOrderNumber] = useState('');  // Bug FE-4 fix: lưu orderId thật từ BE
+  const [orderNumber, setOrderNumber] = useState(''); 
 
-  // Bug FE-2 fix: load data từ BE thay vì hardcode
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -32,23 +31,18 @@ function App() {
           getAllProducts(),
         ]);
 
-        // Map BE fields → FE format
-        // BE: { categoryId, categoryName, categoryUrl }
-        // categoryUrl giờ chứa image URL (sau khi sửa data.sql)
         setCategories(catRes.data.map(c => ({
           id: c.categoryId,
           name: c.categoryName,
           image: c.categoryUrl,
         })));
 
-        // BE: { productId, productName, productPrice, productUrl, categoryId, optionGroups }
-        // productUrl giờ chứa image URL (sau khi sửa data.sql)
         setProducts(prodRes.data.map(p => ({
           id: p.productId,
           name: p.productName,
           price: Number(p.productPrice),
           image: p.productUrl,
-          category: p.categoryId,       // integer ID từ BE
+          category: p.categoryId,      
           optionGroups: p.optionGroups ?? [],
         })));
       } catch (err) {
@@ -62,7 +56,6 @@ function App() {
     fetchData();
   }, []);
 
-  // Bug FE-5 fix: cart item giờ chứa selectedOptionIds (list<Integer>) để gửi BE
   const addToCart = (item) => {
     setCart(prev => {
       const existing = prev.find(i =>
@@ -94,7 +87,6 @@ function App() {
     setCart(prev => prev.filter(item => item.cartId !== cartId));
   };
 
-  // Bug FE-3 fix: gọi createOrder khi checkout, createPayment khi chọn payment method
   const handleCheckout = async () => {
     try {
       const orderPayload = {
@@ -105,7 +97,6 @@ function App() {
         })),
       };
       const res = await createOrder(orderPayload);
-      // Bug FE-4 fix: dùng orderId thật từ BE
       setOrderNumber(String(res.data.orderId));
       setScreen('PAYMENT');
     } catch (err) {
@@ -118,7 +109,7 @@ function App() {
     try {
       await createPayment({
         orderId: Number(orderNumber),
-        method: method, // "CASH" hoặc "QR" — khớp với enum PaymentMethod trong BE
+        method: method,
       });
       setScreen(method === 'QR' ? 'QR' : 'SUCCESS');
     } catch (err) {
@@ -170,7 +161,7 @@ function App() {
           cart={cart}
           cartTotal={cartTotal}
           onBack={() => setScreen('MENU')}
-          onCheckout={handleCheckout}   // Bug FE-3 fix: gọi async handleCheckout
+          onCheckout={handleCheckout} 
           onUpdateQty={handleUpdateQty}
           onRemove={handleRemoveItem}
         />

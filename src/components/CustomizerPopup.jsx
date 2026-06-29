@@ -1,16 +1,9 @@
 import React, { useState, useMemo } from 'react';
 import OrderIcon from "../assets/OrderIcon.png";
 
-/**
- * Bug FE-5 fix:
- * - Trước: hardcode Size/Nhiệt độ/Độ ngọt dạng strings, không track optionIds
- * - Sau: render động từ item.optionGroups (data BE), track selectedOptionIds (List<Integer>)
- *   để gửi đúng format vào createOrder API
- */
 export default function CustomizerPopup({ item, onClose, onAdd }) {
     const [quantity, setQuantity] = useState(1);
 
-    // selectedOptions: { [groupId]: { optionId, optionName, optionPrice } }
     const initialSelections = useMemo(() => {
         const init = {};
         (item.optionGroups ?? []).forEach(group => {
@@ -45,10 +38,8 @@ export default function CustomizerPopup({ item, onClose, onAdd }) {
     };
 
     const handleAdd = () => {
-        // Tạo selectedOptionIds để gửi lên BE
         const selectedOptionIds = Object.values(selectedOptions).map(o => o.optionId);
 
-        // Label hiển thị trong Cart (giữ UX cũ)
         const optionLabels = Object.entries(selectedOptions).map(([groupId, opt]) => {
             const group = (item.optionGroups ?? []).find(g => g.groupId === Number(groupId));
             return `${group?.groupName ?? ''}: ${opt.optionName}`;
@@ -60,12 +51,11 @@ export default function CustomizerPopup({ item, onClose, onAdd }) {
             image: item.image,
             quantity,
             price: unitPrice,
-            selectedOptionIds,  // gửi BE
-            optionLabels,       // hiển thị trong Cart
+            selectedOptionIds,  
+            optionLabels,       
         });
     };
 
-    // Fallback: nếu sản phẩm không có optionGroups (BE chưa trả về)
     const hasOptions = (item.optionGroups ?? []).length > 0;
 
     return (
@@ -91,7 +81,7 @@ export default function CustomizerPopup({ item, onClose, onAdd }) {
                     <p style={{ textAlign: 'center', color: '#888' }}>Sản phẩm không có tùy chọn thêm</p>
                 )}
 
-                {/* Render động từ BE optionGroups */}
+                {}
                 {(item.optionGroups ?? []).map(group => (
                     <div key={group.groupId} className="option-cluster">
                         <label className="option-label">

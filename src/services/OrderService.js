@@ -1,4 +1,4 @@
-import api from "./api"; // Bug FE-1: sửa "./self-restaurant" → "./api"
+import api from "./api";
 
 export const createOrder = (order) => {
     return api.post("/order", order);
