@@ -6,19 +6,19 @@ export default function OrderTypes({ onSelect, onBack }) {
     return (
         <div className="types-container">
             <div className="types-center">
-                <h2 className="types-heading">Bạn muốn thưởng thức tại đâu?</h2>
+                <h2 className="types-heading">Where would you like to enjoy it?</h2>
                 <div className="types-group">
                     <button onClick={() => onSelect('dine-in')} className="type-button">
-                        <img className="type-image" src={Dinein} alt="Tại chỗ" />
-                        <span className="type-label">Tại chỗ</span>
+                        <img className="type-image" src={Dinein} alt="On-site" />
+                        <span className="type-label">On-site</span>
                     </button>
                     <button onClick={() => onSelect('takeout')} className="type-button">
-                        <img className="type-image" src={Takeout} alt="Mang đi" />
-                        <span className="type-label">Mang đi</span>
+                        <img className="type-image" src={Takeout} alt="Takeaway" />
+                        <span className="type-label">Takeaway</span>
                     </button>
                 </div>
             </div>
-            <button onClick={onBack} className="back-button">← Bắt đầu lại</button>
+            <button onClick={onBack} className="back-button">← Start over</button>
         </div>
     );
 }

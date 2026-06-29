@@ -10,7 +10,7 @@ export default function Payment({ cartTotal, orderType, onBack, onSelectMethod }
             <div className="payment-body">
                 <div className="payment-heading">
                     <h2 className="payment-main-heading">
-                        Bạn muốn thanh toán bằng cách nào?
+                        How would you like to pay?
                     </h2>
                 </div>
                 <div className="payment-options">
@@ -18,7 +18,7 @@ export default function Payment({ cartTotal, orderType, onBack, onSelectMethod }
                         <img className="pay-card-img" src={Cash} alt="Cash"></img>
                         <div>
                             <h4 className="pay-card-title">CASH</h4>
-                            <p className="pay-card-text">Thanh toán tại quầy</p>
+                            <p className="pay-card-text">Pay at the counter</p>
                         </div>
                     </button>
 
@@ -26,7 +26,7 @@ export default function Payment({ cartTotal, orderType, onBack, onSelectMethod }
                         <img className="pay-card-img" src={QR} alt="QR"></img>
                         <div>
                             <h4 className="pay-card-title">QR</h4>
-                            <p className="pay-card-text">Quét mã QR tại đây</p>
+                            <p className="pay-card-text">Scan the QR code here.</p>
                         </div>
                     </button>
                 </div>

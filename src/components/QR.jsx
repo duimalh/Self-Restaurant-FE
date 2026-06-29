@@ -18,12 +18,12 @@ export default function QR({ cart, cartTotal, orderNumber, onBack, onComplete })
     }, [seconds, isExpired]);
     const buildReceipt = () => {
         const titleLine = "SELF-RESTAURANT";
-        const infoLine = `Ma don hang: ${orderNumber}\nNgay: ${new Date().toLocaleDateString()}`;
+        const infoLine = `Order ID: ${orderNumber}\nDay: ${new Date().toLocaleDateString()}`;
 
         const itemsList = cart.length > 0
             ? cart.map((item, index) => `${index + 1}. ${item.name} (${item.size}/${item.temp}/${item.sweetness}) x${item.quantity}`).join('\n')
-            : "- Khong co thong tin -";
-        const totalLine = `Tong tien: ${cartTotal.toLocaleString()} VND`;
+            : "- No information available. -";
+        const totalLine = `Total amount: ${cartTotal.toLocaleString()} VND`;
         return `${titleLine}\n${infoLine}\n${itemsList}\n${totalLine}\n`;
     };
 
@@ -38,7 +38,7 @@ export default function QR({ cart, cartTotal, orderNumber, onBack, onComplete })
     return (
         <div className="qr-screen">
             <div className="qr-content" >
-                <div className="qr-inst-title">Quét mã để thanh toán</div>
+                <div className="qr-inst-title">Scan code to pay</div>
                 <div className="qr-box">
                     {isExpired ? (
                         <div className="qr-box-time">

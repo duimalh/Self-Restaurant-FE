@@ -116,8 +116,8 @@ export default function CustomizerPopup({ item, onClose, onAdd }) {
                 onClick={handleAdd}
                 className="btn-submit-custom-item"
             >
-                <img src={OrderIcon} alt="Thêm vào giỏ" className="btn-submit-icon" />
-                <span> Thêm vào giỏ</span>
+                <img src={OrderIcon} alt="Add to cart" className="btn-submit-icon" />
+                <span> Add to cart</span>
                 <span>{(unitPrice * quantity).toLocaleString()}VND</span>
             </button>
         </div>
