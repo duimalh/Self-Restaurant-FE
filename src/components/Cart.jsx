@@ -2,7 +2,6 @@ import React from 'react';
 import Trash from "../assets/Trash.png";
 import OrderIcon from "../assets/OrderIcon.png";
 
-// Thay item.size/temp/sweetness bằng item.optionLabels (từ CustomizerPopup mới)
 export default function Cart({ cart, cartTotal, onBack, onCheckout, onUpdateQty, onRemove }) {
   return (
     <div className="cart-screen">
@@ -23,7 +22,7 @@ export default function Cart({ cart, cartTotal, onBack, onCheckout, onUpdateQty,
                 <div className="cart-item-title">
                   <h2 className="cart-item-name">{item.name}</h2>
                   <ul className="cart-item-options">
-                    {/* Bug FE-5 fix: dùng optionLabels thay vì size/temp/sweetness */}
+                    {}
                     {(item.optionLabels ?? []).map((label, i) => (
                       <li key={i}>{label}</li>
                     ))}
