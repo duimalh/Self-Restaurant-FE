@@ -46,8 +46,8 @@ function App() {
           optionGroups: p.optionGroups ?? [],
         })));
       } catch (err) {
-        console.error('Lỗi load dữ liệu:', err);
-        setError('Không thể kết nối server. Vui lòng thử lại.');
+        console.error('Data loading error:', err);
+        setError('Unable to connect to the server. Please try again.');
       } finally {
         setLoading(false);
       }
@@ -100,8 +100,8 @@ function App() {
       setOrderNumber(String(res.data.orderId));
       setScreen('PAYMENT');
     } catch (err) {
-      console.error('Lỗi tạo đơn hàng:', err);
-      alert('Không thể tạo đơn hàng. Vui lòng thử lại.');
+      console.error('Order creation error:', err);
+      alert('Unable to create the order. Please try again.');
     }
   };
 
@@ -113,8 +113,8 @@ function App() {
       });
       setScreen(method === 'QR' ? 'QR' : 'SUCCESS');
     } catch (err) {
-      console.error('Lỗi thanh toán:', err);
-      alert('Không thể xử lý thanh toán. Vui lòng thử lại.');
+      console.error('Payment error:', err);
+      alert('Unable to create the order. Please try again.');
     }
   };
 
@@ -127,7 +127,7 @@ function App() {
 
   if (loading) {
     return <div className="kiosk-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <p>Đang tải menu...</p>
+      <p>Loading menu...</p>
     </div>;
   }
 

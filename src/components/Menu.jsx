@@ -54,7 +54,7 @@ export default function Menu({ categories, items, cart, onAddToCart, onViewOrder
                     })}
                     <div className="menu-button-bar">
                         <button className="view-order-button" onClick={onViewOrder}>
-                            <img src={OrderIcon} alt="Xem đơn hàng" className="view-order-icon" />
+                            <img src={OrderIcon} alt="View order" className="view-order-icon" />
                             <span className="view-order-text">Xem giỏ hàng</span>
                             <span className="view-order-count">{orderItems}</span>
                             <span className="view-order-total">{cartTotal.toLocaleString()}VND</span>
