@@ -9,8 +9,8 @@ export default function OrderTypes({ onSelect, onBack }) {
                 <h2 className="types-heading">Where would you like to enjoy it?</h2>
                 <div className="types-group">
                     <button onClick={() => onSelect('dine-in')} className="type-button">
-                        <img className="type-image" src={Dinein} alt="On-site" />
-                        <span className="type-label">On-site</span>
+                        <img className="type-image" src={Dinein} alt="Dinein" />
+                        <span className="type-label">Dinein</span>
                     </button>
                     <button onClick={() => onSelect('takeout')} className="type-button">
                         <img className="type-image" src={Takeout} alt="Takeaway" />

@@ -32,7 +32,7 @@ export default function Payment({ cartTotal, orderType, onBack, onSelectMethod }
                 </div>
             </div>
             <button onClick={onBack} className="back-button">
-                ← Trở lại
+                ← Return
             </button>
         </div>
     );

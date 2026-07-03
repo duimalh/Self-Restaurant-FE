@@ -6,13 +6,13 @@ export default function Cart({ cart, cartTotal, onBack, onCheckout, onUpdateQty,
   return (
     <div className="cart-screen">
       <div className="cart-header">
-        <h2 className="cart-title">Giỏ hàng </h2>
+        <h2 className="cart-title">Cart </h2>
       </div>
 
       <div className="cart-items-area">
         {cart.length === 0 ? (
           <div className="cart-empty">
-            <p>Giỏ hàng trống</p>
+            <p>Empty cart</p>
           </div>
         ) : (
           cart.map((item) => (
@@ -50,7 +50,7 @@ export default function Cart({ cart, cartTotal, onBack, onCheckout, onUpdateQty,
 
       <div className="cart-buttons">
         <button onClick={onBack} className="btn-back-menu">
-          ← Trở lại Menu
+          ← Return to menu
         </button>
         <button onClick={onCheckout} disabled={cart.length === 0} className="btn-checkout ">
           <span className="cart-checkout-text">
